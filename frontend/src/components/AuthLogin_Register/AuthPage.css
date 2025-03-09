@@ -1,0 +1,261 @@
+/* Fade transition for mode changes */
+.fade-in {
+  opacity: 1;
+  transition: opacity 0.3s ease-in-out;
+}
+
+.fade-out {
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out;
+}
+
+/* Ensure the page covers the full viewport without scrolling */
+.auth-page {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  display: flex;
+  font-family: 'Roboto', sans-serif;
+}
+
+/* Left side: Solid black background with white text */
+.left-side {
+  flex: 1;
+  background: #000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  padding: 2rem;
+  padding-top: 110px;
+  position: relative;
+}
+
+/* Enhanced text styling for left side */
+.left-content {
+  text-align: center;
+  padding: 2rem;
+}
+
+/* Adjusted image styling: placed at the bottom with a top margin */
+.left-content img.left-img {
+  max-width: 100%;
+  height: auto;
+  margin-top: 1rem;
+}
+
+.left-content h1 {
+  font-size: 3rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6);
+}
+
+.left-content p {
+  font-size: 1.25rem;
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+}
+
+/* Right side: Centered login/register form */
+.right-side {
+  flex: 1;
+  background: #f0f2f5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+}
+
+/* Modern card styling with softer rounded corners */
+.auth-card {
+  background: #ffffff;
+  border: none;
+  border-radius: 24px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  padding: 0.8rem 2rem;
+  width: 100%;
+  max-width: 400px;
+}
+
+/* Additional styles for registration mode */
+.auth-card.register-mode {
+  min-height: 600px;
+  transform: translateY(10px);
+}
+
+.auth-card h4 {
+  color: #333;
+  text-align: center;
+  margin-bottom: 1.5rem;
+  font-size: 1.75rem;
+}
+
+/* Ensure form controls span full width with more rounded corners */
+.form-control {
+  width: 94%;
+  display: block;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+  padding: 0.75rem;
+  margin-bottom: 1rem;
+  font-size: 1rem;
+}
+
+/* Primary submit button: full width, black background, white text with softer edges */
+.btn-primary {
+  background-color: #000;
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  padding: 0.75rem;
+  font-size: 1rem;
+  transition: background-color 0.3s ease;
+  width: 100%;
+}
+
+.btn-primary:hover {
+  background-color: #333;
+}
+
+/* Divider styling: horizontal line on both sides of the text */
+.divider {
+  display: flex;
+  align-items: center;
+  margin: 1rem 0;
+  width: 100%;
+}
+
+.divider::before,
+.divider::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: #ddd;
+}
+
+.divider::before {
+  margin-right: 0.75rem;
+}
+
+.divider::after {
+  margin-left: 0.75rem;
+}
+
+.divider span {
+  font-size: 0.95rem;
+  color: #777;
+}
+
+/* Social login container: Stack buttons vertically */
+.social-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  width: 100%;
+}
+
+/* Custom styling for Google and LinkedIn buttons */
+.google-btn, .linkedin-btn {
+  background-color: #fff !important;
+  width: 100% !important;
+  border: 1px solid #ddd !important;
+  padding: 0.75rem 1rem 0.75rem 2.5rem !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  font-family: inherit;
+  text-align: center;
+  position: relative;
+}
+
+.google-btn img, .linkedin-btn img {
+  position: absolute;
+  left: 1rem;
+  width: 20px;
+  height: 20px;
+}
+
+.btn-link {
+  padding: 0;
+  font-weight: 600;
+  color: #007bff;
+}
+
+.btn-link:hover {
+  text-decoration: underline;
+}
+
+.account-switch {
+  margin-top: 0.9rem !important;
+  font-size: 0.9rem;
+  text-align: center;
+}
+
+.auth-card .card-body {
+  transform: translateY(-20px);
+}
+
+label {
+  cursor: default;
+  display: inline-block;
+  margin-bottom: 0.5rem;
+}
+
+/* Custom dropdown select menu for role */
+.select-menu {
+  position: relative;
+  margin-bottom: 1rem;
+}
+
+.select-menu .select-btn {
+  position: relative;
+  height: 23px;
+  padding: 10px 16px;
+  padding-right: 8px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  background: #fff;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.select-btn i {
+  font-size: 25px;
+}
+
+.select-menu .options {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  margin-top: 0;
+  padding: 10px 0;
+  border-radius: 8px;
+  background: #fff;
+  box-shadow: 0 0 3px rgba(0, 0, 0, 0.1);
+  z-index: 100;
+}
+
+.select-menu .option {
+  display: flex;
+  height: 55px;
+  cursor: pointer;
+  padding: 0 16px;
+  border-radius: 8px;
+  align-items: center;
+  transition: background 0.2s ease;
+}
+
+.select-menu .option:hover {
+  background: #f0f2f5;
+}
+
+.select-menu .sBtn-text {
+  font-size: 1rem;
+}

@@ -1,0 +1,54 @@
+/* frontend/src/App.css */
+.App {
+  text-align: center;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.app.light {
+  background-color: #f8f9fa;
+  color: #343a40;
+}
+
+.app.dark {
+  background-color: #343a40;
+  color: #f8f9fa;
+}
+
+body {
+  margin: 0;
+}
+
+.navbar, .sidebar {
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+/* Sidebar styles */
+.sidebar {
+  width: 220px;
+  padding: 20px;
+  background-color: #fff;
+  border-right: 1px solid #ddd;
+}
+
+/* Dashboard card customization */
+.card {
+  border: none;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  margin-bottom: 20px;
+}
+
+/* Modern font and spacing */
+h2 {
+  margin-bottom: 20px;
+  font-weight: 600;
+}
+
+/* Theme Toggle Button (in ThemeToggle component) */
+.theme-toggle-btn {
+  background-color: #6c757d;
+  border: none;
+  color: #fff;
+  padding: 8px 12px;
+  border-radius: 4px;
+}
