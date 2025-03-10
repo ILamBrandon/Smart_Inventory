@@ -40,7 +40,6 @@
   padding: 2rem;
 }
 
-/* Adjusted image styling: placed at the bottom with a top margin */
 .left-content img.left-img {
   max-width: 100%;
   height: auto;
@@ -73,41 +72,57 @@
 .auth-card {
   background: #ffffff;
   border: none;
-  border-radius: 24px;
+  border-radius: 30px;  /* Increased from 24px to 30px for softer edges */
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-  padding: 0.8rem 2rem;
+  padding: 2rem;
   width: 100%;
-  max-width: 400px;
+  max-width: 500px;
 }
 
 /* Additional styles for registration mode */
 .auth-card.register-mode {
-  min-height: 600px;
+  height: 700px !important;  /* Registration container height */
+  transform: translateY(10px);
+}
+
+/* New styles for login mode to make its container smaller */
+.auth-card.login-mode {
+  height: 530px;  /* Adjust as needed */
   transform: translateY(10px);
 }
 
 .auth-card h4 {
   color: #333;
   text-align: center;
-  margin-bottom: 1.5rem;
+  margin-bottom: 0.5rem;
   font-size: 1.75rem;
+}
+
+/* Removed upward transform to position content normally */
+.auth-card.login-mode .card-body {
+  transform: translateY(-20px); /* Adjust value for login as needed */
+}
+
+.auth-card.register-mode .card-body {
+  transform: translateY(-30px); /* Adjust value for register as needed */
 }
 
 /* Ensure form controls span full width with more rounded corners */
 .form-control {
-  width: 94%;
+  width: 100%;
   display: block;
   border-radius: 10px;
   border: 1px solid #ccc;
   padding: 0.75rem;
   margin-bottom: 1rem;
   font-size: 1rem;
+  height: 2.7rem; 
 }
 
-/* Primary submit button: full width, black background, white text with softer edges */
-.btn-primary {
-  background-color: #000;
-  color: #fff;
+/* Custom login button styling */
+.btn-black {
+  background-color: #000 !important;
+  color: #fff !important;
   border: none;
   border-radius: 10px;
   padding: 0.75rem;
@@ -116,15 +131,23 @@
   width: 100%;
 }
 
-.btn-primary:hover {
-  background-color: #333;
+.btn-black:active,
+.btn-black:focus {
+  background-color: #000 !important;
+  border-color: #000 !important;
+  box-shadow: none !important;
+}
+
+.btn-black:hover {
+  background-color: #333 !important;
 }
 
 /* Divider styling: horizontal line on both sides of the text */
 .divider {
   display: flex;
   align-items: center;
-  margin: 1rem 0;
+  margin-top: 0;
+  margin-bottom: 1rem;
   width: 100%;
 }
 
@@ -170,6 +193,15 @@
   font-family: inherit;
   text-align: center;
   position: relative;
+  color: #000 !important;
+  transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+}
+
+/* Hover effect: Change to light gray */
+.google-btn:hover, .linkedin-btn:hover {
+  background-color: #f0f0f0 !important;
+  border-color: #f0f0f0 !important;
+  color: #000 !important;
 }
 
 .google-btn img, .linkedin-btn img {
@@ -195,25 +227,16 @@
   text-align: center;
 }
 
-.auth-card .card-body {
-  transform: translateY(-20px);
-}
-
-label {
-  cursor: default;
-  display: inline-block;
-  margin-bottom: 0.5rem;
-}
-
 /* Custom dropdown select menu for role */
 .select-menu {
   position: relative;
   margin-bottom: 1rem;
+  width: 100%;
 }
 
 .select-menu .select-btn {
   position: relative;
-  height: 23px;
+  height: 45px; /* Increased height for a larger select box */
   padding: 10px 16px;
   padding-right: 8px;
   border: 1px solid #ccc;
@@ -223,6 +246,7 @@ label {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  width: 100%;
 }
 
 .select-btn i {
@@ -258,4 +282,9 @@ label {
 
 .select-menu .sBtn-text {
   font-size: 1rem;
+}
+
+/* Custom spinner styling for login (white spinner) */
+.spinner-white {
+  color: #fff;
 }

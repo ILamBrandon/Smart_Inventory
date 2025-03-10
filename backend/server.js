@@ -21,6 +21,7 @@ const warehouseRoutes = require('./routes/warehouses');
 const authRoutes = require('./routes/auth');
 const notificationRoutes = require('./routes/notifications');
 const analyticsRoutes = require('./routes/analytics'); // new analytics route
+const awsRoutes = require('./routes/aws');
 
 // Mount routes
 app.use('/api/products', productRoutes);
@@ -30,6 +31,7 @@ app.use('/api/warehouses', warehouseRoutes);
 app.use('/api/auth', authRoutes);
 app.use('/api/notifications', notificationRoutes);
 app.use('/api/analytics', analyticsRoutes); // mount analytics route
+app.use('/api/aws', awsRoutes); 
 
 const PORT = process.env.PORT || 5001;
 db.sequelize.sync().then(() => {

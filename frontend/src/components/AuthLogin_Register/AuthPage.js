@@ -1,14 +1,13 @@
 // src/components/AuthLogin_Register/AuthPage.js
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom'; // Import useNavigate
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import { Card, Form, Button } from 'react-bootstrap';
+import { Card, Form, Button, Spinner } from 'react-bootstrap';
 import Swal from 'sweetalert2';
 import { useGoogleLogin } from '@react-oauth/google';
 import { LinkedIn } from 'react-linkedin-login-oauth2';
 import './AuthPage.css';
 
-// CustomSelect component remains unchanged
 function CustomSelect({ value, onChange, options, placeholder }) {
   const [open, setOpen] = useState(false);
 
@@ -43,15 +42,14 @@ function CustomSelect({ value, onChange, options, placeholder }) {
 }
 
 function AuthPage({ onLogin }) {
-  const navigate = useNavigate(); // Initialize navigate
+  const navigate = useNavigate();
   const [isLogin, setIsLogin] = useState(true);
   const [fade, setFade] = useState(true);
+  const [loading, setLoading] = useState(false);
 
-  // Common fields
+  // Fields
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-
-  // Registration-only fields
   const [email, setEmail] = useState('');
   const [role, setRole] = useState('');
 
@@ -64,7 +62,6 @@ function AuthPage({ onLogin }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Ensure role is selected when registering
     if (!isLogin && !role) {
       Swal.fire({
         icon: 'error',
@@ -77,14 +74,12 @@ function AuthPage({ onLogin }) {
 
     try {
       if (isLogin) {
-        // Login process
+        setLoading(true);
         const res = await axios.post('http://localhost:5001/api/auth/login', { username, password });
-        const token = res.data.accessToken;
-        onLogin(token);
-        // Redirect to home page after login
+        onLogin(res.data.accessToken);
+        setLoading(false);
         navigate("/");
       } else {
-        // Registration process
         const registrationData = { username, password, email, role };
         await axios.post('http://localhost:5001/api/auth/signup', registrationData);
         Swal.fire({
@@ -98,21 +93,18 @@ function AuthPage({ onLogin }) {
         }, 2000);
       }
     } catch (err) {
+      if (isLogin) setLoading(false);
       let errorMessage = '';
       if (err.response && err.response.data && err.response.data.error) {
         const backendError = err.response.data.error;
         if (isLogin) {
-          if (backendError === 'Invalid credentials') {
-            errorMessage = 'Username does not exist or password incorrect.';
-          } else {
-            errorMessage = backendError;
-          }
+          errorMessage = backendError === 'Invalid credentials'
+            ? 'Username does not exist or password incorrect.'
+            : backendError;
         } else {
-          if (backendError === 'Validation error') {
-            errorMessage = 'Username already in use or incorrect email format.';
-          } else {
-            errorMessage = backendError;
-          }
+          errorMessage = backendError === 'Validation error'
+            ? 'Username already in use or incorrect email format.'
+            : backendError;
         }
       } else {
         errorMessage = isLogin
@@ -125,10 +117,9 @@ function AuthPage({ onLogin }) {
         text: errorMessage,
         confirmButtonColor: '#000'
       });
-    }    
+    }
   };
 
-  // Toggle between Login and Registration modes
   const toggleMode = () => {
     setFade(false);
     setTimeout(() => {
@@ -144,7 +135,6 @@ function AuthPage({ onLogin }) {
   const handleSocialLogin = async (provider, response) => {
     const dummyToken = `dummy-${provider}-token`;
     onLogin(dummyToken);
-    // Redirect to home page after social login
     navigate("/");
   };
 
@@ -155,7 +145,6 @@ function AuthPage({ onLogin }) {
 
   return (
     <div className="auth-page">
-      {/* Left Side */}
       <div className="left-side">
         <div className="left-content">
           <h1>Smart Inventory</h1>
@@ -163,7 +152,6 @@ function AuthPage({ onLogin }) {
             Welcome to Smart Inventory – your smart solution for efficient inventory management.
             Seamlessly track, manage, and optimize your inventory with ease.
           </p>
-          {/* Picture placed at the bottom */}
           <img
             src="https://d38cf3wt06n6q6.cloudfront.net/tyasuitefront/webgpcs/images/warehouse-management-software.png"
             alt="Warehouse Management"
@@ -172,11 +160,10 @@ function AuthPage({ onLogin }) {
         </div>
       </div>
 
-      {/* Right Side */}
       <div className="right-side">
-        <Card className={`auth-card ${!isLogin ? 'register-mode' : ''}`}>
+        <Card className={`auth-card ${isLogin ? 'login-mode' : 'register-mode'}`}>
           <Card.Body className={fade ? 'fade-in' : 'fade-out'}>
-            <h4>{isLogin ? 'Login' : 'Register'}</h4>
+            <h4>{isLogin ? 'Log in' : 'Register'}</h4>
             <Form onSubmit={handleSubmit}>
               {!isLogin && (
                 <Form.Group className="mb-3" controlId="formRole">
@@ -218,18 +205,36 @@ function AuthPage({ onLogin }) {
                   required
                 />
               </Form.Group>
-              <Button variant="primary" type="submit" className="mb-3">
-                {isLogin ? 'Login' : 'Register'}
+              <Button type="submit" className="mb-3 btn-black" disabled={isLogin && loading}>
+                {isLogin ? (
+                  loading ? (
+                    <>
+                      <Spinner
+                        as="span"
+                        animation="border"
+                        size="sm"
+                        role="status"
+                        aria-hidden="true"
+                        className="me-2 spinner-white"
+                      />
+                      <span>Logging in</span>
+                    </>
+                  ) : (
+                    'Log in'
+                  )
+                ) : (
+                  'Register'
+                )}
               </Button>
             </Form>
             <div className="divider">
-              <span>{isLogin ? 'or login with' : 'or register with'}</span>
+              <span>{isLogin ? 'or log in with' : 'or register with'}</span>
             </div>
             <div className="social-buttons">
               <div className="social-button">
                 <Button variant="outline-info" className="google-btn" onClick={googleLogin}>
                   <img src="https://developers.google.com/identity/images/g-logo.png" alt="Google" />
-                  {isLogin ? 'Login with Google' : 'Register with Google'}
+                  {isLogin ? 'Log in with Google' : 'Register with Google'}
                 </Button>
               </div>
               <div className="social-button">
@@ -250,7 +255,7 @@ function AuthPage({ onLogin }) {
                       disabled={disabled}
                     >
                       <img src="https://cdn-icons-png.flaticon.com/512/174/174857.png" alt="LinkedIn" />
-                      {isLogin ? 'Login with LinkedIn' : 'Register with LinkedIn'}
+                      {isLogin ? 'Log in with LinkedIn' : 'Register with LinkedIn'}
                     </Button>
                   )}
                 </LinkedIn>
@@ -288,7 +293,7 @@ function AuthPage({ onLogin }) {
                       border: 'none'
                     }}
                   >
-                    Login here
+                    Log in here
                   </span>
                 </>
               )}

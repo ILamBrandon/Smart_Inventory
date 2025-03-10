@@ -1,79 +1,52 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { Navbar, Nav, Container, NavDropdown } from 'react-bootstrap';
 import { FaWarehouse, FaUserCircle } from 'react-icons/fa';
 import './Navbar.css';
 
-const Navbar = ({ onLogout }) => {
+function ModernNavbar({ onLogout }) {
   const navigate = useNavigate();
-  const [dropdownOpen, setDropdownOpen] = useState(false);
-  const [menuOpen, setMenuOpen] = useState(false);
-
-  const toggleDropdown = () => setDropdownOpen(!dropdownOpen);
-  const toggleMenu = () => setMenuOpen(!menuOpen);
 
   const handleLogout = () => {
-    onLogout();
+    // Remove the token from localStorage
+    localStorage.removeItem('token');
+    // Update the token state in App by calling onLogout
+    if (onLogout) {
+      onLogout();
+    }
+    // Redirect to the authentication page using the replace option
     navigate('/auth', { replace: true });
   };
 
   return (
-    <nav className="custom-navbar">
-      <div className="custom-navbar-container">
-        <Link to="/" className="custom-navbar-brand">
-          <FaWarehouse className="icon" /> Smart Inventory
-        </Link>
-        <button className="custom-navbar-toggle" onClick={toggleMenu}>
-          &#9776;
-        </button>
-        <div className={`custom-navbar-collapse ${menuOpen ? 'open' : ''}`}>
-          <ul className="custom-navbar-nav">
-            <li className="nav-item">
-              <Link to="/">Dashboard</Link>
-            </li>
-            <li className="nav-item">
-              <Link to="/products">Products</Link>
-            </li>
-            <li className="nav-item">
-              <Link to="/suppliers">Suppliers</Link>
-            </li>
-            <li className="nav-item">
-              <Link to="/orders">Orders</Link>
-            </li>
-            <li className="nav-item">
-              <Link to="/warehouses">Warehouses</Link>
-            </li>
-            <li className="nav-item">
-              <Link to="/analytics">Analytics</Link>
-            </li>
-            <li className="nav-item">
-              <Link to="/notifications">Notifications</Link>
-            </li>
-            <li className="nav-item dropdown">
-              <span className="dropdown-toggle" onClick={toggleDropdown}>
-                <FaUserCircle size={20} />
-              </span>
-              {dropdownOpen && (
-                <ul className="dropdown-menu">
-                  <li>
-                    <Link to="/profile">Profile</Link>
-                  </li>
-                  <li>
-                    <Link to="/settings">Settings</Link>
-                  </li>
-                  <li className="dropdown-divider"></li>
-                  <li>
-                    <button onClick={handleLogout} className="dropdown-logout">
-                      Logout
-                    </button>
-                  </li>
-                </ul>
-              )}
-            </li>
-          </ul>
-        </div>
-      </div>
-    </nav>
+    <Navbar bg="dark" variant="dark" expand="lg" sticky="top">
+      {/* Using a fluid container removes the default horizontal padding */}
+      <Container fluid>
+        <Navbar.Brand as={Link} to="/">
+          <FaWarehouse className="mb-1" /> Smart Inventory
+        </Navbar.Brand>
+        <Navbar.Toggle aria-controls="basic-navbar-nav" />
+        <Navbar.Collapse id="basic-navbar-nav">
+          <Nav className="ms-auto">
+            <Nav.Link as={Link} to="/">Dashboard</Nav.Link>
+            <Nav.Link as={Link} to="/products">Products</Nav.Link>
+            <Nav.Link as={Link} to="/suppliers">Suppliers</Nav.Link>
+            <Nav.Link as={Link} to="/orders">Orders</Nav.Link>
+            <Nav.Link as={Link} to="/warehouses">Warehouses</Nav.Link>
+            <Nav.Link as={Link} to="/notifications">Notifications</Nav.Link>
+            <Nav.Link as={Link} to="/analytics">Analytics</Nav.Link>
+            {/* Align dropdown to the right */}
+            <NavDropdown title={<FaUserCircle size={20} />} id="user-dropdown" align="end">
+              <NavDropdown.Item as={Link} to="/profile">Profile</NavDropdown.Item>
+              <NavDropdown.Item as={Link} to="/settings">Settings</NavDropdown.Item>
+              <NavDropdown.Divider />
+              <NavDropdown.Item onClick={handleLogout}>Logout</NavDropdown.Item>
+            </NavDropdown>
+          </Nav>
+        </Navbar.Collapse>
+      </Container>
+    </Navbar>
   );
-};
+}
 
-export default Navbar;
+export default ModernNavbar;
